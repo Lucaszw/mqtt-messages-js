@@ -6,8 +6,8 @@ MqttMessages.addSubscription = function(channel, method){
   const subscription = channel.replace(/\{(.+?)\}/g, "+");
   this.subscriptions.push(subscription);
   // If the client is ready, then subscribe immediately
-  if (this.client.connected)
-    this.client.subscribe(subscription);
+  // if (this.client.connected)
+  //   this.client.subscribe(subscription);
   return subscription;
 }
 MqttMessages.addBinding = function(channel, event, retain=false, qos=0, dup=false){
