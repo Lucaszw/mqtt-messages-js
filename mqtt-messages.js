@@ -4,10 +4,17 @@ const MqttMessages = new Object();
 MqttMessages.addSubscription = function(channel, method){
   this.addRoute(channel, method);
   const subscription = channel.replace(/\{(.+?)\}/g, "+");
+  // Ensure client is connected before continuing
+  if (!this.client.connected) {
+    console.error("<MqttMessages>:: Cannot add subscription. Client not connected");
+    return subscription;
+  }
+  // Ensure subscription doesn't already exist
+  if (this.subscriptions.includes(subscription))
+    return subscription;
+  // If the client is ready, then subscribe immediately, otherwise add to list
+  this.client.subscribe(subscription);
   this.subscriptions.push(subscription);
-  // If the client is ready, then subscribe immediately
-  // if (this.client.connected)
-  //   this.client.subscribe(subscription);
   return subscription;
 }
 MqttMessages.addBinding = function(channel, event, retain=false, qos=0, dup=false){
