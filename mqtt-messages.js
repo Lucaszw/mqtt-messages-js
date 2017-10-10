@@ -13,8 +13,8 @@ MqttMessages.addSubscription = function(channel, method){
   if (this.subscriptions.includes(subscription))
     return subscription;
   // If the client is ready, then subscribe immediately, otherwise add to list
-  this.client.subscribe(subscription);
   this.subscriptions.push(subscription);
+  this.client.subscribe(subscription);
   return subscription;
 }
 MqttMessages.addBinding = function(channel, event, retain=false, qos=0, dup=false){
@@ -41,12 +41,12 @@ MqttMessages.bindPutMsg = function(receiver, val, event){
   /* Request plugin to change the state of one of its variables */
   return this.addBinding(`${this.base}/put/${receiver}/${val}`, event);
 }
-MqttMessages.onNotifyMsg = function(topic, method){
-  return this.addSubscription(`${this.base}/notify/${this.name}/${topic}`, method);
+MqttMessages.onNotifyMsg = function(sender,topic, method){
+  return this.addSubscription(`${this.base}/${sender}/notify/${this.name}/${topic}`, method);
 }
 MqttMessages.bindNotifyMsg = function(receiver, topic, event){
   /* Similar to trigger; notify plugin regarding a particular topic */
-  return this.addBinding(`${this.base}/notify/${receiver}/${topic}`, event);
+  return this.addBinding(`${this.base}/${this.name}/notify/${receiver}/${topic}`, event);
 }
 MqttMessages.onStatusMsg = function(sender, method){
   return this.addSubscription(`${this.base}/status/${sender}`, method);
