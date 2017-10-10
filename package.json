@@ -1,6 +1,6 @@
 {
   "name": "@mqttclient/mqtt-messages",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Mixins for NodeMqttMessages and WebMqttMessages",
   "main": "mqtt-messages.js",
   "scripts": {
