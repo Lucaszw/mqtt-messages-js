@@ -2,7 +2,7 @@
 const MqttMessages = new Object();
 
 MqttMessages.addSubscription = function(channel, method){
-  this.addRoute(channel, method);
+  const route = this.addRoute(channel, method);
   const subscription = channel.replace(/\{(.+?)\}/g, "+");
 
   // Ensure client is connected before continuing
@@ -18,7 +18,7 @@ MqttMessages.addSubscription = function(channel, method){
   // If the client is ready, then subscribe immediately, otherwise add to list
   this.subscriptions.push(subscription);
   this.client.subscribe(subscription);
-  return subscription;
+  return route;
 }
 MqttMessages.addBinding = function(channel, event, retain=false, qos=0, dup=false){
   return this.on(event, (d) => this.sendMessage(channel, d, retain, qos, dup));
