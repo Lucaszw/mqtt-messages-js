@@ -26,9 +26,9 @@ MqttMessages.addBinding = function(channel, event, retain=false, qos=0, dup=fals
 MqttMessages.onStateMsg = function(sender, val, method){
   return this.addSubscription(`${this.base}/${sender}/state/${val}`, method);
 }
-MqttMessages.bindStateMsg = function(val, event) {
+MqttMessages.bindStateMsg = function(val, event, persist=true) {
   /* Notify plugins that state has successfully been modified */
-  return this.addBinding(`${this.base}/${this.name}/state/${val}`, event, true);
+  return this.addBinding(`${this.base}/${this.name}/state/${val}`, event, persist);
 }
 MqttMessages.onStateErrorMsg = function(sender, val, method){
   return this.addSubscription(`${this.base}/${sender}/error/${val}`, method);
